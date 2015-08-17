@@ -8,50 +8,50 @@ typedef unsigned int uint32;
 
 enum
 {
-	SPADES = 0,
-	HEARTS,
-	CLUBS,
-	DIAMONDS
+    SPADES = 0,
+    HEARTS,
+    CLUBS,
+    DIAMONDS
 };
 
 enum
 {
-	HOLD = 0,
-	FLOP,
-	TURN,
-	RIVER
+    HOLD = 0,
+    FLOP,
+    TURN,
+    RIVER
 };
 
 enum
 {
-	CHECK = 0,
-	CALL,
-	RAISE,
-	ALL_IN,
-	FOLD,
-	CMD_NUM
+    CHECK = 0,
+    CALL,
+    RAISE,
+    ALL_IN,
+    FOLD,
+    CMD_NUM
 };
 
 
 typedef struct _card
 {
-	uint8 color_val;
-	uint8 card_val;
+    uint8 color_val;
+    uint8 card_val;
 }CARD;
 
 
 typedef struct
 {
-	int pot_val;
-	int jetton_val;
-	int money_val;
-	int bet;
+    int pot_val;
+    int jetton_val;
+    int money_val;
+    int bet;
 }MONEY;
 
 typedef struct
 {
-	char idbuff[10];
-	uint8 id_length;
+    char idbuff[10];
+    uint8 id_length;
 }PLAYER_ID;
 
 #define pot_com_len 12

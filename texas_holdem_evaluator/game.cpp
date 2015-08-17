@@ -4,7 +4,7 @@
 
 #include "evaluator.h"
 
-#ifdef	DEBUG
+#ifdef    DEBUG
 //自定定义的退出log日志文件名
 char logname[30] = {'\0'};
 #endif
@@ -42,57 +42,57 @@ int raise_num;
 
 int main(int argc, char *argv[])
 {
-	//判断输入的参数个数是否正确
-	if (argc != 6)
-	{
-		printf("Usage: ./%s server_ip server_port my_ip my_port my_id\n", argv[0]);
-		return -1;
-	}
-	//生成socket通信接口，socketID保存在m_socket_id中
-	uint8 flag = buildSocket(argv);
-	if(flag != 0)
-	{
-		printf("building the socket occur something wrong!%d", flag);
-		return flag;
-	}
-	/* 向server注册 */
-	/* reg: pid pname eol */
-	char reg_msg[50] = {'\0'};
-	uint8 pidlen = 0;
-	while(argv[5][pidlen] != '\0')
-	{
-		++pidlen;
-	}
-	m_playid.id_length = pidlen;
-	memcpy(m_playid.idbuff, argv[5], pidlen);
-	m_playid.idbuff[pidlen+1] = '\0';
-	snprintf(reg_msg, sizeof(reg_msg) - 1, "reg: %s %s \n", argv[5], "sunflower"); 
-	send(m_socket_id, reg_msg, strlen(reg_msg) + 1, 0);
+    //判断输入的参数个数是否正确
+    if (argc != 6)
+    {
+        printf("Usage: ./%s server_ip server_port my_ip my_port my_id\n", argv[0]);
+        return -1;
+    }
+    //生成socket通信接口，socketID保存在m_socket_id中
+    uint8 flag = buildSocket(argv);
+    if(flag != 0)
+    {
+        printf("building the socket occur something wrong!%d", flag);
+        return flag;
+    }
+    /* 向server注册 */
+    /* reg: pid pname eol */
+    char reg_msg[50] = {'\0'};
+    uint8 pidlen = 0;
+    while(argv[5][pidlen] != '\0')
+    {
+        ++pidlen;
+    }
+    m_playid.id_length = pidlen;
+    memcpy(m_playid.idbuff, argv[5], pidlen);
+    m_playid.idbuff[pidlen+1] = '\0';
+    snprintf(reg_msg, sizeof(reg_msg) - 1, "reg: %s %s \n", argv[5], "sunflower"); 
+    send(m_socket_id, reg_msg, strlen(reg_msg) + 1, 0);
 
 #ifdef DEBUG
-	//初始化logname，用于保存log日志文件名
-	snprintf(logname, sizeof(logname)-1, "/home/game/%s.txt", argv[5]);
+    //初始化logname，用于保存log日志文件名
+    snprintf(logname, sizeof(logname)-1, "/home/game/%s.txt", argv[5]);
 #endif
-	//程序运行，初始化所有公共信息
-	memset((uint8*)(&m_money), 0, sizeof(m_money));
+    //程序运行，初始化所有公共信息
+    memset((uint8*)(&m_money), 0, sizeof(m_money));
 
-	/* 接收server消息，进入游戏 */	
-	while(1)
-	{
-		char buffer[1024] = {'\0'};
-		int length = recv(m_socket_id, buffer, sizeof(buffer) - 1, 0);
-		if(length > 0)
-		{  
-			//调用函数对接收到的信息进行处理
-			if (-1 == handle_recv_msg(buffer, length, argv[5]))
-			{
-				break;
-			}
-		} 
-	}
+    /* 接收server消息，进入游戏 */    
+    while(1)
+    {
+        char buffer[1024] = {'\0'};
+        int length = recv(m_socket_id, buffer, sizeof(buffer) - 1, 0);
+        if(length > 0)
+        {  
+            //调用函数对接收到的信息进行处理
+            if (-1 == handle_recv_msg(buffer, length, argv[5]))
+            {
+                break;
+            }
+        } 
+    }
 
-	/* 关闭socket */
-	close(m_socket_id);
+    /* 关闭socket */
+    close(m_socket_id);
 
-	return 0;
+    return 0;
 }
