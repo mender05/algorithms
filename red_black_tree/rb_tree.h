@@ -11,10 +11,9 @@ template<typename Value>
 struct Rb_tree_node {
     typedef Rb_tree_node<Value> Node;
     typedef Node* Node_ptr;
-    Rb_tree_node (): parent(nullptr),
-        left(nullptr), right(nullptr) {}
-    Rb_tree_node (Value v) : parent(nullptr),
-        left(nullptr), right(nullptr), value(v) {}
+    Rb_tree_node (): parent(nullptr), left(nullptr), right(nullptr) {}
+    Rb_tree_node (Value v) : parent(nullptr), left(nullptr), 
+        right(nullptr), value(v) {}
     Color color;
     Node_ptr parent;
     Node_ptr left;
@@ -80,6 +79,7 @@ void Rb_tree<Value>::delete_node (const Value& v) {
         delete pr.second;
         return;
     }
+    delete pr.second;
     rebalance_after_delete(pr.first);
 
 }
@@ -228,7 +228,7 @@ void Rb_tree<Value>::rebalance_after_delete (Node_ptr x) {
                 // 黑兄，孩子不一定存在
                 // 孩子不存在的时候默认为黑色
                 Color brathor_left_color = brathor->left ? brathor->left->color : black;
-                Color brathor_right_color = brathor->right ? brathor->right->color : red;
+                Color brathor_right_color = brathor->right ? brathor->right->color : black;
                 if (brathor_left_color == black && brathor_right_color == black) {
                         // 黑兄，一家黑
                         brathor->color = red;
@@ -268,7 +268,7 @@ void Rb_tree<Value>::rebalance_after_delete (Node_ptr x) {
                 // 黑兄，孩子不一定存在
                 // 孩子不存在的时候默认为黑色
                 Color brathor_right_color = brathor->right ? brathor->right->color : black;
-                Color brathor_left_color = brathor->left ? brathor->left->color : red;
+                Color brathor_left_color = brathor->left ? brathor->left->color : black;
                 if (brathor_right_color == black && brathor_left_color == black) {
                         // 黑兄，一家黑
                         brathor->color = red;
